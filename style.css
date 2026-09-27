@@ -88,7 +88,7 @@ body {
   100% { transform: translateY(-8px) scale(1.1); }
 }
 
-/* Calculator Outer Frame */
+/* Frame */
 .calculator {
   width: 100%;
   background: var(--calc-body);
@@ -135,14 +135,14 @@ body {
   display: none;
 }
 
-/* Keypad (4 columns grid) */
+/* Keypad Grid (4 columns) */
 .keypad {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 11px;
 }
 
-/* Round Tactile Buttons matching your layout image */
+/* Round Tactile Buttons */
 .btn {
   aspect-ratio: 1;
   height: auto;
@@ -164,7 +164,7 @@ body {
   box-shadow: 0 1px 0px !important;
 }
 
-/* Numbers (00, 0-9, .) */
+/* Numbers (0-9, .) */
 .btn-num {
   background-color: var(--btn-num-bg);
   border-color: var(--btn-num-border);
@@ -173,7 +173,7 @@ body {
 }
 .btn-num:hover { background-color: #ffd8e2; }
 
-/* Function Buttons (AC, %, ⌫) */
+/* Function Buttons (AC, %, ⌫, √) */
 .btn-func {
   background-color: var(--btn-func-bg);
   border-color: var(--btn-func-border);
