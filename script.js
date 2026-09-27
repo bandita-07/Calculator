@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevDisplay = document.getElementById('prevDisplay');
   const currDisplay = document.getElementById('currDisplay');
 
-  // Bubble sound effect
+  // Bubble sound generator
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
   let audioCtx = null;
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Append Number (supports single digit, '.', and '00')
+  // Append Number (0-9, .)
   function appendNumber(val) {
     playPop(520);
 
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Handle decimal point
     if (val === '.') {
       if (currentOperand.includes('.')) return;
       currentOperand += '.';
@@ -65,15 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Handle '00'
-    if (val === '00') {
-      if (currentOperand === '0') return;
-      currentOperand += '00';
-      updateDisplay();
-      return;
-    }
-
-    // Handle normal digits
     if (currentOperand === '0') {
       currentOperand = val;
     } else {
@@ -97,6 +87,24 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       currentOperand = currentOperand.slice(0, -1);
     }
+    updateDisplay();
+  }
+
+  // Square Root (√)
+  function squareRoot() {
+    playPop(620);
+    if (currentOperand === 'Error') return;
+
+    const val = parseFloat(currentOperand);
+    if (isNaN(val)) return;
+
+    if (val < 0) {
+      currentOperand = 'Error';
+    } else {
+      currentOperand = parseFloat(Math.sqrt(val).toFixed(8)).toString();
+    }
+
+    resetOnNextInput = true;
     updateDisplay();
   }
 
@@ -148,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Format clean numbers without floating-point precision issues
     currentOperand = parseFloat(result.toFixed(8)).toString();
     operation = null;
     previousOperand = '';
@@ -189,17 +196,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  document.getElementById('btnSqrt').addEventListener('click', squareRoot);
   document.getElementById('btnDel').addEventListener('click', deleteNumber);
   document.getElementById('btnAC').addEventListener('click', clearAll);
   document.getElementById('btnPercent').addEventListener('click', percentage);
   document.getElementById('btnEquals').addEventListener('click', compute);
 
-  // Kitten mascot purr click
+  // Mascot interaction
   document.getElementById('mascot').addEventListener('click', () => {
     playPop(900);
   });
 
-  // Full Keyboard input support
+  // Keyboard navigation
   window.addEventListener('keydown', (e) => {
     if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
       appendNumber(e.key);
@@ -215,8 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (e.key === 'Escape') clearAll();
     if (e.key === '%') percentage();
+    if (e.key.toLowerCase() === 'r' || e.key.toLowerCase() === 's') squareRoot();
   });
 
-  // Initial screen render
+  // Initial render
   updateDisplay();
 });
